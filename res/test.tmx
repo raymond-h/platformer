@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="16" tileheight="16" backgroundcolor="#0f273e">
+ <properties>
+  <property name="next" value="test2.tmx"/>
+ </properties>
+ <tileset firstgid="1" name="White" tilewidth="16" tileheight="16">
+  <image source="tiles.png" trans="47316d" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="9" name="Meta" tilewidth="16" tileheight="16">
+  <properties>
+   <property name="meta" value="1"/>
+  </properties>
+  <image source="metatiles.png" trans="47316d" width="32" height="16"/>
+  <tile id="0">
+   <properties>
+    <property name="dense" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="jump_through" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="main" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt0FEKACAIBFHx/ofuBlmgudUszF/EKzczJxJpZfjw4bvX12ncmYIvOtPtOzV1u4Jhtixf1Tt++b/oPhVf9jJ9FW965f+IiH5pAP/RBsc=
+  </data>
+ </layer>
+ <layer name="meta" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt0MEJACAMBMF803/DdmAUEnPqHuxPZNTNzIlEWhk+fPju9XUad6bgi850+05N3a5gmC3LV/WOX/4vuk/Fl71MX8WbXvk/IqJfGr3BHnw=
+  </data>
+ </layer>
+</map>

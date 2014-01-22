@@ -1,0 +1,6 @@
+bin/*
+libs/* 
+
+*.dll
+*.exe
+*.sublime-project
