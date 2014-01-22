@@ -1,5 +1,6 @@
 bin/*
 libs/*
+dep/*
 
 *.dll
 *.exe
