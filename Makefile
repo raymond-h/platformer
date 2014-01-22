@@ -19,7 +19,7 @@ INCLUDES =-I. -Ilibs/include -I$(TILEDPP_INCLUDE)
 
 LIBS = -Llibs/lib -L$(TILEDPP_LIB_DEBUG) -lTiledPP -ltinyxml2 -lticppd -lz $(SDL_LIBS) $(BOOST_LIBS)
 
-SDL_LIBS = -lSDL2 -lSDL2_image
+SDL_LIBS = -lSDL -lSDL_image
 
 BOOST_LIBS = -lboost_filesystem-mgw47-mt-sd-1_52 -lboost_thread-mgw47-mt-sd-1_52 \
 		-lboost_system-mgw47-mt-sd-1_52 -lboost_chrono-mgw47-mt-sd-1_52
