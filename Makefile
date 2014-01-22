@@ -19,7 +19,7 @@ INCLUDES =-I. -Ilibs/include -I$(TILEDPP_INCLUDE)
 
 LIBS = -Llibs/lib -L$(TILEDPP_LIB_DEBUG) -lTiledPP -ltinyxml2 -lticppd -lz $(SDL_LIBS) $(BOOST_LIBS)
 
-SDL_LIBS = -lSDL2 -lSDL2_image
+SDL_LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
 
 BOOST_LIBS = -lboost_filesystem-mgw47-mt-sd-1_52 -lboost_thread-mgw47-mt-sd-1_52 \
 		-lboost_system-mgw47-mt-sd-1_52 -lboost_chrono-mgw47-mt-sd-1_52
@@ -43,7 +43,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	@$(MKDIR) $(@D)
-	$(CXX) -o $@ $^ -static-libgcc -static-libstdc++ $(LIBS)
+	$(CXX) -o $@ $^ $(LIBS) -static-libgcc -static-libstdc++
 
 clean: clean-bin clean-dep
 

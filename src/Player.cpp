@@ -18,6 +18,11 @@ Player::Player() : pos(128, 128),vel(0, 0),acc(0, 9.82f * 32.f), bboxOffset(-8,-
 
 void Player::event(const SDL_Event& event) {
 	if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+		// std::cout << (event.key.state == SDL_PRESSED ? "Pressed" : "Released") << " key " << SDL_GetKeyName(event.key.keysym.sym)
+		// 	<< "; repeat: " << (int)event.key.repeat << std::endl;
+
+		if(event.key.repeat) return;
+
 		switch(event.key.keysym.sym) {
 			case SDLK_LEFT: keyDir += (event.key.state == SDL_PRESSED ? -1 : 1); break;
 			case SDLK_RIGHT: keyDir -= (event.key.state == SDL_PRESSED ? -1 : 1); break;

@@ -11,7 +11,6 @@
 #include <iostream>
 
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_gfxPrimitives.h>
 
 #include "GraphicsUtils.h"
 

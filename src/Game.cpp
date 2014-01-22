@@ -18,6 +18,7 @@
 #include "Maps.h"
 #include "Player.h"
 
+SDL_Window* window;
 SurfacePtr screen;
 
 Player* player;
@@ -26,7 +27,7 @@ MapPtr currentMap;
 int Game::init(int argc, char** argv) {
 	std::cout << "SDL init... ";
 	if(SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		std::cout << std::endl << "Failure to init SDL: " << SDL_GetError() << std::endl;
+		std::cerr << std::endl << "Failure to init SDL: " << SDL_GetError() << std::endl;
 		return 1;
 	}
 	std::cout << "Success" << std::endl;
@@ -34,19 +35,38 @@ int Game::init(int argc, char** argv) {
 	std::cout << "SDL_image init... ";
 	int imgFlags = IMG_INIT_PNG;
 	if((IMG_Init(imgFlags) & imgFlags) != imgFlags) {
-		std::cout << std::endl << "Failure to init SDL_image: " << IMG_GetError() << std::endl;
+		std::cerr << std::endl << "Failure to init SDL_image: " << IMG_GetError() << std::endl;
 		return 2;
 	}
 	std::cout << "Success" << std::endl;
 
-	SDL_WM_SetCaption( "Platformer", "Platformer" );
+	// SDL_WM_SetCaption( "Platformer", "Platformer" );
+	window = SDL_CreateWindow(
+		"Platformer",
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, // Window position
+		640, 480, // Window size
+		SDL_WINDOW_SHOWN
+	);
+	if(!window) {
+		std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
+	}
 
-	screen = wrapNoDealloc( SDL_SetVideoMode(640, 480, 32, SDL_DOUBLEBUF|SDL_HWSURFACE) );
+	// screen = wrapNoDealloc( SDL_SetVideoMode(640, 480, 32, SDL_DOUBLEBUF|SDL_HWSURFACE) );
+	screen = wrapNoDealloc( SDL_GetWindowSurface(window) );
 
 	player = new Player();
 	currentMap = loadMap("res/test.tmx");
 
 	return 0;
+}
+
+void Game::exit(int exitCode) {
+	delete player;
+
+	SDL_DestroyWindow(window);
+
+	SDL_Quit();
+	IMG_Quit();
 }
 
 int Game::loop() {
@@ -73,17 +93,10 @@ int Game::loop() {
 		}
 
 		this->render();
-		SDL_Flip(screen.get());
+		SDL_UpdateWindowSurface(window);
 	}
 
 	return 0;
-}
-
-void Game::exit(int exitCode) {
-	delete player;
-
-	SDL_Quit();
-	IMG_Quit();
 }
 
 bool Game::event(const SDL_Event& event) { //true == keep processing events, false == break out of event processing NOW
