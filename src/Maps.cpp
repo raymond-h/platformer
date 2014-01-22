@@ -10,8 +10,8 @@
 #include <cmath>
 #include <iostream>
 
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_gfxPrimitives.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_gfxPrimitives.h>
 
 #include "GraphicsUtils.h"
 

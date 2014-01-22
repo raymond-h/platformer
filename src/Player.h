@@ -1,6 +1,6 @@
 #include "Maps.h"
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "util/SDLUtils.h"
 
 #ifndef PLAYER_H_

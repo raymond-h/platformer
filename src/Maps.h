@@ -9,7 +9,7 @@
 #include <vector>
 #include <functional>
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "util/SDLUtils.h"
 
 #include <boost/filesystem.hpp>

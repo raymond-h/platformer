@@ -1,7 +1,7 @@
 #include <memory>
 #include <functional>
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #ifndef SDL_UTILS_H_
 #define SDL_UTILS_H_

@@ -11,8 +11,8 @@
 #include <chrono>
 #include <ratio>
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "util/SDLUtils.h"
 
 #include "Maps.h"
