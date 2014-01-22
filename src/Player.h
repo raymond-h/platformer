@@ -17,7 +17,7 @@ public:
 
 	void update(unsigned long delta, MapPtr map);
 
-	void render(SurfacePtr screen);
+	void render(SDL_Renderer*);
 
 	Vector& getPos() { return pos; };
 

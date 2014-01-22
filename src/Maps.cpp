@@ -12,6 +12,7 @@
 
 #include <SDL2/SDL_image.h>
 
+#include "Game.h"
 #include "GraphicsUtils.h"
 
 using namespace tiledpp;
@@ -57,7 +58,7 @@ MapPtr loadMap(const boost::filesystem::path& file) {
 
 		SDL_Surface* tilesetImg = IMG_Load( fullname.c_str() );
 
-		tilesetUserData->surface = SurfacePtr(tilesetImg, [](SDL_Surface* s){ SDL_FreeSurface(s); });
+		tilesetUserData->image = createFromSurface(Game::renderer(), tilesetImg);
 	}
 	
 	return map;
@@ -90,17 +91,20 @@ void freeMap(tiledpp::Map* map) {
 // 	}
 // }
 
-void renderTileLayer(tiledpp::TileLayer* layer, SurfacePtr destSurface, SDL_Rect* dest, long mapx, long mapy) {
+void renderTileLayer(tiledpp::TileLayer* layer, SDL_Renderer* destRenderer, SDL_Rect* dest, long mapx, long mapy) {
 	SDL_Rect destRect, oldClip;
 	if(dest) {
-		SDL_GetClipRect(destSurface.get(), &oldClip);
-		SDL_SetClipRect(destSurface.get(), dest);
+		// SDL_GetClipRect(destSurface.get(), &oldClip);
+		// SDL_SetClipRect(destSurface.get(), dest);
 		destRect = *dest;
 	}
 	else {
+		int w = 0, h = 0;
+		SDL_GetRendererOutputSize(destRenderer, &w, &h);
 		destRect = {
-				0, 0, (unsigned short)destSurface->w, (unsigned short)destSurface->h
+				0, 0, w, h
 		};
+		// std::cout << w << "; " << h << std::endl;
 	}
 	
 	tiledpp::Map* map = layer->getOwner();
@@ -110,7 +114,7 @@ void renderTileLayer(tiledpp::TileLayer* layer, SurfacePtr destSurface, SDL_Rect
 	long tiley = ( mapy / map->getTileHeight() );
 	if(tilex < 0) tilex = 0;
 	if(tiley < 0) tiley = 0;
-	
+
 	long tilew = ( (mapx+destRect.w) / map->getTileWidth() ) + 1;
 	long tileh = ( (mapy+destRect.h) / map->getTileHeight() ) + 1;
 	if(tilew >= layer->getWidth()) tilew = layer->getWidth();
@@ -133,18 +137,22 @@ void renderTileLayer(tiledpp::TileLayer* layer, SurfacePtr destSurface, SDL_Rect
 			SDL_Rect srcNow = { (short)p.x, (short)p.y, tileset->getTileWidth(), tileset->getTileHeight() };
 			SDL_Rect destNow = {
 					short( i * map->getTileWidth() + tileset->getTileOffsetX() - mapx + destRect.x ),
-					short( j * map->getTileHeight() + tileset->getTileOffsetY() - mapy + destRect.y )
+					short( j * map->getTileHeight() + tileset->getTileOffsetY() - mapy + destRect.y ),
+					tileset->getTileWidth(), tileset->getTileHeight()
 			};
+
+			// std::cout << "Hurr: " << short( i * map->getTileWidth() + tileset->getTileOffsetX() - mapx + destRect.x ) << std::endl;
 			
-			SurfacePtr surface = tileset->getUserDataAs<TilesetUserData>()->surface;
+			TexturePtr image = tileset->getUserDataAs<TilesetUserData>()->image;
 
-			// std::cout << surface.get() << ": " << surface.get()->w << ", " << surface.get()->h << std::endl;
+			// std::cout << "Drawing tile " << srcNow.x << "," << srcNow.y << " to " << destNow.x << "," << destNow.y << std::endl;
 
-			SDL_BlitSurface( surface.get(), &srcNow, destSurface.get(), &destNow );
+			// SDL_BlitSurface( surface.get(), &srcNow, destSurface.get(), &destNow );
+			SDL_RenderCopy( destRenderer, image.get(), &srcNow, &destNow );
 		}
 	}
 	
-	if(dest) SDL_SetClipRect(destSurface.get(), &oldClip);
+	// if(dest) SDL_SetClipRect(destSurface.get(), &oldClip);
 }
 
 template<typename T> T sgn(T i) { return i > T(0) ? T(1) : T(-1); };

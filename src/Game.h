@@ -8,11 +8,15 @@
 #include <memory>
 
 #include <SDL2/SDL.h>
+#include "util/SDLUtils.h"
 
 #include "BaseGame.h"
 
 #ifndef GAME_H_
 #define GAME_H_
+
+#include "Maps.h"
+#include "Player.h"
 
 class Game : public BaseGame {
 public:
@@ -23,6 +27,10 @@ public:
 		static Game* inst = new Game();
 		return inst;
 	};
+
+	static SDL_Renderer* renderer() {
+		return instance()->mainRenderer;
+	}
 	
 protected:
 	int init(int argc, char** argv);
@@ -41,6 +49,13 @@ protected:
 private:
 	bool stepMode = false;
 	bool runFrame = false;
+
+	SDL_Window* window;
+	SurfacePtr screen;
+	SDL_Renderer* mainRenderer;
+
+	Player* player;
+	MapPtr currentMap;
 };
 
 #endif /* GAME_H_ */

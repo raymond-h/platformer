@@ -38,7 +38,7 @@ typedef struct {
 
 typedef struct {
 
-	SurfacePtr surface;
+	TexturePtr image;
 
 	/* Enter your tileset-specific data here */
 	
@@ -51,7 +51,7 @@ MapPtr loadMap(const boost::filesystem::path&);
 long calcTileX(MapPtr map, float x);
 long calcTileY(MapPtr map, float y);
 
-void renderTileLayer(tiledpp::TileLayer* layer, SurfacePtr destSurface, SDL_Rect* dest, long x, long y);
+void renderTileLayer(tiledpp::TileLayer* layer, SDL_Renderer* dest, SDL_Rect* destRect, long x, long y);
 
 int checkCollisionWithMap(MapPtr map, FloatRect bbox, Vector vel, Vector* adjusts);
 

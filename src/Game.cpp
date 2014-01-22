@@ -11,18 +11,7 @@
 #include <chrono>
 #include <ratio>
 
-#include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "util/SDLUtils.h"
-
-#include "Maps.h"
-#include "Player.h"
-
-SDL_Window* window;
-SurfacePtr screen;
-
-Player* player;
-MapPtr currentMap;
 
 int Game::init(int argc, char** argv) {
 	std::cout << "SDL init... ";
@@ -52,7 +41,8 @@ int Game::init(int argc, char** argv) {
 	}
 
 	// screen = wrapNoDealloc( SDL_SetVideoMode(640, 480, 32, SDL_DOUBLEBUF|SDL_HWSURFACE) );
-	screen = wrapNoDealloc( SDL_GetWindowSurface(window) );
+	// screen = wrapNoDealloc( SDL_GetWindowSurface(window) );
+	mainRenderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
 
 	player = new Player();
 	currentMap = loadMap("res/test.tmx");
@@ -63,11 +53,17 @@ int Game::init(int argc, char** argv) {
 void Game::exit(int exitCode) {
 	delete player;
 
+	SDL_DestroyRenderer(mainRenderer);
 	SDL_DestroyWindow(window);
 
 	SDL_Quit();
 	IMG_Quit();
 }
+
+unsigned long msCount = 0;
+unsigned long msCountPerSecond = 0;
+unsigned long frameCount = 0;
+float fps = 0;
 
 int Game::loop() {
 	namespace ch = std::chrono;
@@ -84,7 +80,21 @@ int Game::loop() {
 			auto now = ch::high_resolution_clock::now();
 			auto time = ch::duration_cast< ch::duration<unsigned long, std::milli> >( now - first );
 
-			this->logic( time.count() );
+			msCountPerSecond += time.count();
+			if(msCountPerSecond >= 1000) {
+				fps = (float)frameCount / ((float)msCountPerSecond / 1000.0f);
+				
+				std::cout << "FPS: " << fps << " (" << frameCount << " frames over " << msCountPerSecond << "ms)" << std::endl;
+
+				msCountPerSecond -= 1000;
+				frameCount = 0;
+			}
+			else frameCount++;
+
+			msCount += time.count();
+			while(msCount > 1000/120) { this->logic( 1000/120 ); msCount -= 1000/120; }
+			// this->logic( time.count() );
+
 			if(!running) break;
 			
 			first = now;
@@ -93,7 +103,6 @@ int Game::loop() {
 		}
 
 		this->render();
-		SDL_UpdateWindowSurface(window);
 	}
 
 	return 0;
@@ -134,19 +143,19 @@ bool Game::event(const SDL_Event& event) { //true == keep processing events, fal
 }
 
 void Game::logic(unsigned long delta) {
+	// delta = 17;
 	player->update(delta, currentMap);
 }
 
 void Game::render() {
-	SDL_FillRect(screen.get(), nullptr, SDL_MapRGB(screen.get()->format, 0, 0, 127));
-	// std::cout << "render" << std::endl;
+	SDL_SetRenderDrawColor(mainRenderer, 0, 0, 127, 255);
+
+	SDL_RenderClear(mainRenderer);
+
 	tiledpp::TileLayer* main = (tiledpp::TileLayer*)currentMap->getSingleLayerByName("main", tiledpp::LAYER_TILE);
+	renderTileLayer(main, mainRenderer, nullptr, 0, 0);
 
-	renderTileLayer(main, screen, nullptr, 0, 0);
+	player->render(mainRenderer);
 
-	// tiledpp::TileLayer* meta = (tiledpp::TileLayer*)currentMap->getSingleLayerByName("meta", tiledpp::LAYER_TILE);
-
-	// renderTileLayer(meta, screen, nullptr, 0, 0);
-
-	player->render(screen);
+	SDL_RenderPresent(mainRenderer);
 }

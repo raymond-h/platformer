@@ -36,7 +36,11 @@ void Player::event(const SDL_Event& event) {
 }
 
 void Player::update(unsigned long delta, MapPtr map) {
+	// std::cout << "Delta: " << delta << std::endl;
+
 	float factor = ((float)delta / 1000.f);
+
+	// std::cout << "Factor: " << factor << std::endl;
 
 	if(keyDir != 0) acc.x() = movementAccel * float(keyDir);
 
@@ -86,6 +90,8 @@ void Player::update(unsigned long delta, MapPtr map) {
 
 	collideFlags = checkCollisionWithMap(map, bbox(), _vel, &adjusts);
 
+	// std::cout << collideFlags << std::endl;
+
 	if( (collideFlags & (COLLISION_UP | COLLISION_DOWN)) != 0 ) {
 		vel.y() = _vel.y() = 0;
 		pos.y() += adjusts.y();
@@ -99,8 +105,10 @@ void Player::update(unsigned long delta, MapPtr map) {
 	pos += _vel;
 }
 
-void Player::render(SurfacePtr screen) {
+void Player::render(SDL_Renderer* renderer) {
 	SDL_Rect rect = bbox().toSDLRect();
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-	SDL_FillRect( screen.get(), &rect, SDL_MapRGB(screen.get()->format, 255, 0, 0) );
+	// SDL_FillRect( screen.get(), &rect, SDL_MapRGB(screen.get()->format, 255, 0, 0) );
+	SDL_RenderFillRect(renderer, &rect);
 }
