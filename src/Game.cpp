@@ -89,10 +89,13 @@ int Game::loop() {
 				msCountPerSecond -= 1000;
 				frameCount = 0;
 			}
-			else frameCount++;
 
 			msCount += time.count();
-			while(msCount > 1000/120) { this->logic( 1000/120 ); msCount -= 1000/120; }
+			while(msCount > 1000/120) {
+				this->logic( 1000/120 );
+				msCount -= 1000/120;
+				frameCount++;
+			}
 			// this->logic( time.count() );
 
 			if(!running) break;
