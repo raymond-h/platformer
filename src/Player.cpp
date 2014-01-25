@@ -13,7 +13,7 @@ bool duckKey = false;
 bool ducking = false;
 int collideFlags = 0;
 
-Player::Player() : pos(128, 128),vel(0, 0),acc(0, 9.82f * 32.f), bboxOffset(-8,-24),w(16),h(32), keyDir(0) {
+Player::Player() : pos(128, 128),vel(0, 0),acc(0, 9.82f * 32.f), bboxOffset(-8,-24),w(16),h(24), keyDir(0) {
 }
 
 void Player::event(const SDL_Event& event) {
@@ -72,7 +72,7 @@ void Player::update(unsigned long delta, MapPtr map) {
 		if( ((collideFlags & COLLISION_DOWN) == 0 || !duckKey) && !headBlocked) ducking = false;
 	}
 
-	h = ducking ? 8 : 32;
+	h = ducking ? 8 : 24;
 	bboxOffset.y() = 8 - h;
 
 	// if((collideFlags & COLLISION_DOWN) == 0) {
