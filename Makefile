@@ -1,5 +1,5 @@
 CFLAGS = $(INCLUDES)
-CXXFLAGS =-O3 -Wall -Wno-sign-compare -Wno-narrowing -std=c++11 $(DEFINES) $(INCLUDES)
+CXXFLAGS =-O3 -Wall -Wno-sign-compare -Wno-narrowing -Wno-reorder -std=c++11 $(DEFINES) $(INCLUDES)
 CXX = LANG=C g++
 
 MKDIR=mkdir -p
@@ -17,7 +17,7 @@ TILEDPP_INCLUDE = $(TILEDPP_PREFIX)/src
 
 INCLUDES =-I. -Ilibs/include -I$(TILEDPP_INCLUDE)
 
-LIBS = -Llibs/lib -L$(TILEDPP_LIB_DEBUG) -lTiledPP -ltinyxml2 -lticppd -lz $(SDL_LIBS) $(BOOST_LIBS)
+LIBS = -Llibs/lib -L$(TILEDPP_LIB_DEBUG) -lTiledPP -ltinyxml2 -lticppd -lz $(SDL_LIBS) $(BOOST_LIBS) -ljson
 
 SDL_LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
 

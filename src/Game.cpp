@@ -13,6 +13,8 @@
 
 #include <SDL2/SDL_image.h>
 
+#include "Animation.h"
+
 int Game::init(int argc, char** argv) {
 	std::cout << "SDL init... ";
 	if(SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -47,7 +49,9 @@ int Game::init(int argc, char** argv) {
 	player = new Player();
 	currentMap = loadMap("res/test.tmx");
 
-	return 0;
+	AnimationManager animan("res/main.json");
+
+	return 1;
 }
 
 void Game::exit(int exitCode) {

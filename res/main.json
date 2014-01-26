@@ -1,0 +1,21 @@
+{
+	"image": "path/to/image.png",
+	"width": 32,
+	"height": 32,
+	"animations": {
+
+		"stand": [
+			{ "x": 0, "y": 0, "duration": 0 }
+		],
+
+		"run": [
+			{ "x": 32, "y": 0, "duration": 100 },
+			{ "x": 64, "y": 0, "duration": 100 },
+			{ "x": 96, "y": 0, "duration": 100 }
+		],
+
+		"jump": [
+			{ "x": 0, "y": 32, "duration": 0 }
+		]
+	}
+}
