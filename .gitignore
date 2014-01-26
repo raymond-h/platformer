@@ -1,6 +1,7 @@
 bin/*
 libs/*
 dep/*
+wip-res/*
 
 *.dll
 *.exe
