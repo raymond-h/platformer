@@ -8,6 +8,7 @@
 
 #include "Vector.h"
 #include "Rect.h"
+#include "Animation.h"
 
 class Player {
 public:
@@ -29,6 +30,8 @@ private:
 	int w, h;
 
 	int keyDir;
+
+	AnimationManager aniMan;
 };
 
 #endif /* PLAYER_H_ */

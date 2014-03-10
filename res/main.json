@@ -1,5 +1,5 @@
 {
-	"image": "path/to/image.png",
+	"image": "res/main.png",
 	"width": 32,
 	"height": 32,
 	"animations": {
@@ -9,9 +9,10 @@
 		],
 
 		"run": [
-			{ "x": 32, "y": 0, "duration": 100 },
-			{ "x": 64, "y": 0, "duration": 100 },
-			{ "x": 96, "y": 0, "duration": 100 }
+			{ "x": 32, "y": 0, "duration": 200 },
+			{ "x": 64, "y": 0, "duration": 200 },
+			{ "x": 96, "y": 0, "duration": 200 },
+			{ "x": 64, "y": 0, "duration": 200 }
 		],
 
 		"jump": [

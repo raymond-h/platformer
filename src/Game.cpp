@@ -46,12 +46,15 @@ int Game::init(int argc, char** argv) {
 	// screen = wrapNoDealloc( SDL_GetWindowSurface(window) );
 	mainRenderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
 
+	std::cout << "setAnimation???" << std::endl;
+
 	player = new Player();
+	std::cout << "bounce bounce" << std::endl;
 	currentMap = loadMap("res/test.tmx");
 
-	AnimationManager animan("res/main.json");
+	std::cout << "Hurr" << std::endl;
 
-	return 1;
+	return 0;
 }
 
 void Game::exit(int exitCode) {

@@ -7,13 +7,15 @@ template<typename T> T sgn(T i) { return i > T(0) ? T(1) : T(-1); };
 template<typename T> T abs(T i) { return i * sgn(i); };
 
 float movementAccel = 1024.0f;
-float maxSideVel = 128.0f;
+float maxSideVel = 100.0f;
 
 bool duckKey = false;
 bool ducking = false;
 int collideFlags = 0;
+int lookDir = 1;
 
-Player::Player() : pos(128, 128),vel(0, 0),acc(0, 9.82f * 32.f), bboxOffset(-8,-24),w(16),h(24), keyDir(0) {
+Player::Player() : pos(128, 128),vel(0, 0),acc(0, 9.82f * 32.f), bboxOffset(-8,-24),w(16),h(24), keyDir(0), aniMan("res/main.json") {
+	aniMan.setAnimation("stand");
 }
 
 void Player::event(const SDL_Event& event) {
@@ -103,12 +105,37 @@ void Player::update(unsigned long delta, MapPtr map) {
 	}
 
 	pos += _vel;
+	// std::cout << "Hurr?" << std::endl;
+
+	// Update graphics
+	if(vel.x()) lookDir = (int)sgn(vel.x());
+
+	if( (collideFlags & COLLISION_DOWN) == 0 ) aniMan.setAnimation("jump");
+	else if(vel.x()) aniMan.setAnimation("run");
+	else aniMan.setAnimation("stand");
+
+	aniMan.update(delta);
 }
 
 void Player::render(SDL_Renderer* renderer) {
-	SDL_Rect rect = bbox().toSDLRect();
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	// SDL_Rect rect = bbox().toSDLRect();
+	// SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
 	// SDL_FillRect( screen.get(), &rect, SDL_MapRGB(screen.get()->format, 255, 0, 0) );
-	SDL_RenderFillRect(renderer, &rect);
+	// SDL_RenderFillRect(renderer, &rect);
+
+	// std::cout << "RENDER #1" << std::endl;
+	SDL_Rect src = aniMan.getArea();
+	// std::cout << "RENDER #2; " << src.x << "," << src.y << " - " << src.w << "," << src.h << std::endl;
+	TexturePtr texture = aniMan.texture();
+	// std::cout << "RENDER #3" << std::endl;
+
+	LongRect destRect(0,0, 32, 32);
+	// std::cout << "RENDER #4" << std::endl;
+	destRect.setCenterPos( bbox().getCenterPos() );
+	// std::cout << "RENDER #5" << std::endl;
+	SDL_Rect dest = destRect.toSDLRect();
+	// std::cout << "RENDER #6; " << dest.x << "," << dest.y << " - " << dest.w << "," << dest.h << std::endl;
+
+	SDL_RenderCopyEx(renderer, texture.get(), &src, &dest, 0.0, nullptr, lookDir == 1 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
