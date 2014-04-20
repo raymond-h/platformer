@@ -30,7 +30,13 @@ void Player::event(const SDL_Event& event) {
 			case SDLK_RIGHT: keyDir -= (event.key.state == SDL_PRESSED ? -1 : 1); break;
 
 			case SDLK_DOWN: duckKey = (event.key.state == SDL_PRESSED); break;
-			case SDLK_UP: if(event.key.state == SDL_PRESSED && (collideFlags & COLLISION_DOWN) != 0 && !ducking) vel.y() = -212.72179013913924f; break;
+			case SDLK_UP:
+				if(event.key.state == SDL_PRESSED &&
+					(collideFlags & COLLISION_DOWN) != 0 && !ducking)
+
+					vel.y() = -212.72179013913924f;
+				
+				break;
 
 			default: break;
 		}
