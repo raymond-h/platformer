@@ -51,6 +51,17 @@ void Player::update(unsigned long delta, MapPtr map) {
 	}
 	else { acc.x() = vel.x() = 0; }
 
+	if( (collideFlags & COLLISION_DOWN) == 0 && vel.y() > 0 &&
+		(((collideFlags & COLLISION_LEFT) != 0 && keyDir == -1) ||
+		((collideFlags & COLLISION_RIGHT) != 0 && keyDir == 1)) ) {
+
+		acc.y() = 0;
+		vel.y() = 24.0f;
+	}
+	else {
+		acc.y() = 9.82f * 32.f;
+	}
+
 	vel += acc * factor;
 	vel.x() = std::min( maxSideVel, abs(vel.x()) ) * sgn( vel.x() );
 
