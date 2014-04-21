@@ -30,6 +30,7 @@ private:
 	int w, h;
 
 	int keyDir;
+	bool oldUpKey, upKey;
 
 	AnimationManager aniMan;
 };

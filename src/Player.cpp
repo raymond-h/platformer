@@ -14,7 +14,12 @@ bool ducking = false;
 int collideFlags = 0;
 int lookDir = 1;
 
-Player::Player() : pos(128, 128),vel(0, 0),acc(0, 9.82f * 32.f), bboxOffset(-8,-24),w(16),h(24), keyDir(0), aniMan("res/main.json") {
+Player::Player() :
+		pos(128, 128), vel(0, 0), acc(0, 9.82f * 32.f),
+		bboxOffset(-8,-24), w(16), h(24),
+		keyDir(0), oldUpKey(false), upKey(false),
+		aniMan("res/main.json") {
+
 	aniMan.setAnimation("stand");
 }
 
@@ -30,13 +35,7 @@ void Player::event(const SDL_Event& event) {
 			case SDLK_RIGHT: keyDir -= (event.key.state == SDL_PRESSED ? -1 : 1); break;
 
 			case SDLK_DOWN: duckKey = (event.key.state == SDL_PRESSED); break;
-			case SDLK_UP:
-				if(event.key.state == SDL_PRESSED &&
-					(collideFlags & COLLISION_DOWN) != 0 && !ducking)
-
-					vel.y() = -212.72179013913924f;
-				
-				break;
+			case SDLK_UP: upKey = (event.key.state == SDL_PRESSED); break;
 
 			default: break;
 		}
@@ -57,16 +56,31 @@ void Player::update(unsigned long delta, MapPtr map) {
 	}
 	else { acc.x() = vel.x() = 0; }
 
+	bool wallSliding = false;
+
 	if( (collideFlags & COLLISION_DOWN) == 0 && vel.y() > 0 &&
 		(((collideFlags & COLLISION_LEFT) != 0 && keyDir == -1) ||
 		((collideFlags & COLLISION_RIGHT) != 0 && keyDir == 1)) ) {
 
 		acc.y() = 0;
 		vel.y() = 24.0f;
+		wallSliding = true;
 	}
 	else {
 		acc.y() = 9.82f * 32.f;
 	}
+
+	if(upKey && !oldUpKey &&
+		((collideFlags & COLLISION_DOWN) != 0 || wallSliding) && !ducking ) {
+
+		vel.y() = -212.72179013913924f;
+		if(wallSliding) vel.x() = -keyDir * 900.0f;
+	}
+	else if(!upKey && oldUpKey && vel.y() < 0 && (collideFlags & COLLISION_DOWN) == 0) {
+		vel.y() = 20.0f;
+	}
+
+	oldUpKey = upKey;
 
 	vel += acc * factor;
 	vel.x() = std::min( maxSideVel, abs(vel.x()) ) * sgn( vel.x() );
@@ -125,7 +139,8 @@ void Player::update(unsigned long delta, MapPtr map) {
 	// std::cout << "Hurr?" << std::endl;
 
 	// Update graphics
-	if(vel.x()) lookDir = (int)sgn(vel.x());
+	// if(vel.x()) lookDir = (int)sgn(vel.x());
+	if(keyDir) lookDir = keyDir;
 
 	if( (collideFlags & COLLISION_DOWN) == 0 ) aniMan.setAnimation("jump");
 	else if(vel.x()) aniMan.setAnimation("run");
