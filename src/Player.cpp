@@ -35,7 +35,7 @@ void Player::event(const SDL_Event& event) {
 			case SDLK_RIGHT: keyDir -= (event.key.state == SDL_PRESSED ? -1 : 1); break;
 
 			case SDLK_DOWN: duckKey = (event.key.state == SDL_PRESSED); break;
-			case SDLK_UP: upKey = (event.key.state == SDL_PRESSED); break;
+			case SDLK_UP: case SDLK_z:  upKey = (event.key.state == SDL_PRESSED); break;
 
 			default: break;
 		}
@@ -74,7 +74,10 @@ void Player::update(unsigned long delta, MapPtr map) {
 		((collideFlags & COLLISION_DOWN) != 0 || wallSliding) && !ducking ) {
 
 		vel.y() = -212.72179013913924f;
-		if(wallSliding) vel.x() = -keyDir * 900.0f;
+		if(wallSliding) {
+			vel.y() *= 1.1f;
+			vel.x() = -keyDir * 900.0f;
+		}
 	}
 	else if(!upKey && oldUpKey && vel.y() < 0 && (collideFlags & COLLISION_DOWN) == 0) {
 		vel.y() = 20.0f;
