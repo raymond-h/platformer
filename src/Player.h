@@ -30,7 +30,12 @@ private:
 	int w, h;
 
 	int keyDir;
-	bool oldUpKey, upKey;
+	bool oldDuckKey, duckKey;
+	bool oldJumpKey, jumpKey;
+
+	bool ducking;
+	int lookDir;
+	int collideFlags;
 
 	AnimationManager aniMan;
 };

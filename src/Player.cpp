@@ -9,15 +9,12 @@ template<typename T> T abs(T i) { return i * sgn(i); };
 float movementAccel = 1024.0f;
 float maxSideVel = 100.0f;
 
-bool duckKey = false;
-bool ducking = false;
-int collideFlags = 0;
-int lookDir = 1;
-
 Player::Player() :
 		pos(128, 128), vel(0, 0), acc(0, 9.82f * 32.f),
 		bboxOffset(-8,-24), w(16), h(24),
-		keyDir(0), oldUpKey(false), upKey(false),
+		keyDir(0), oldJumpKey(false), jumpKey(false),
+		oldDuckKey(false), duckKey(false),
+		ducking(false), collideFlags(0), lookDir(1),
 		aniMan("res/main.json") {
 
 	aniMan.setAnimation("stand");
@@ -35,7 +32,7 @@ void Player::event(const SDL_Event& event) {
 			case SDLK_RIGHT: keyDir -= (event.key.state == SDL_PRESSED ? -1 : 1); break;
 
 			case SDLK_DOWN: duckKey = (event.key.state == SDL_PRESSED); break;
-			case SDLK_UP: case SDLK_z:  upKey = (event.key.state == SDL_PRESSED); break;
+			case SDLK_UP: case SDLK_z:  jumpKey = (event.key.state == SDL_PRESSED); break;
 
 			default: break;
 		}
@@ -70,20 +67,21 @@ void Player::update(unsigned long delta, MapPtr map) {
 		acc.y() = 9.82f * 32.f;
 	}
 
-	if(upKey && !oldUpKey &&
+	if(jumpKey && !oldJumpKey &&
 		((collideFlags & COLLISION_DOWN) != 0 || wallSliding) && !ducking ) {
 
 		vel.y() = -212.72179013913924f;
 		if(wallSliding) {
-			vel.y() *= 1.1f;
+			// vel.y() *= 1.1f;
 			vel.x() = -keyDir * 900.0f;
 		}
 	}
-	else if(!upKey && oldUpKey && vel.y() < 0 && (collideFlags & COLLISION_DOWN) == 0) {
+	else if(!jumpKey && oldJumpKey && vel.y() < 0 && (collideFlags & COLLISION_DOWN) == 0) {
 		vel.y() = 20.0f;
 	}
 
-	oldUpKey = upKey;
+	oldJumpKey = jumpKey;
+	oldDuckKey = duckKey;
 
 	vel += acc * factor;
 	vel.x() = std::min( maxSideVel, abs(vel.x()) ) * sgn( vel.x() );
@@ -97,7 +95,7 @@ void Player::update(unsigned long delta, MapPtr map) {
 		return isTileCollidable(map, x, y);
 	};
 
-	bool oldDucking = ducking;
+	// bool oldDucking = ducking;
 
 	if(!ducking) {
 		if((collideFlags & COLLISION_DOWN) != 0 && duckKey) ducking = true;
@@ -110,15 +108,6 @@ void Player::update(unsigned long delta, MapPtr map) {
 
 	h = ducking ? 8 : 24;
 	bboxOffset.y() = 8 - h;
-
-	// if((collideFlags & COLLISION_DOWN) == 0) {
-	// 	if(!oldDucking && ducking) {
-	// 		pos.y() -= 24;
-	// 	}
-	// 	else if(oldDucking && !ducking) {
-	// 		pos.y() += 24;
-	// 	}
-	// }
 
 	// Physics, collision with world
 	Vector adjusts;
