@@ -24,12 +24,12 @@
  </tileset>
  <layer name="main" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0FEKACAIBFHx/ofuBlmgudUszF/EKzczJxJpZfjw4bvX12ncmYIvOtPtOzV1u4Jhtixf1Tt++b/oPhVf9jJ9FW965f+IiH5pAP/RBsc=
+   eJztktEJAEAIQqP9h74R6iIrSsFffUkqIrrAaJGvhi8z66fnKl/0hm4+q5t8/pxqPk9eN5+VWcUX6Z6yn1eZfAj2S/t5u6byoZTNV/GjW/dD3LRlP5qm6St+U/gFzw==
   </data>
  </layer>
  <layer name="meta" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0MEJACAMBMF803/DdmAUEnPqHuxPZNTNzIlEWhk+fPju9XUad6bgi850+05N3a5gmC3LV/WOX/4vuk/Fl71MX8WbXvk/IqJfGr3BHnw=
+   eJztkkEOAEAEA139/8P7BFYUoU16bUdDRUQXGC3y1fBlZv30XOWL3tDNZ3WTz59TzefJ6+azMqv4It1T9vMqkw/Bfmk/b9dUPpSy+Sp+dOt+iJu27EfTNH3FDzhLGiA=
   </data>
  </layer>
 </map>
