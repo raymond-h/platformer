@@ -46,6 +46,8 @@ void Player::update(unsigned long delta, MapPtr map) {
 
 	// std::cout << "Factor: " << factor << std::endl;
 
+	// Handle button input
+	// -- Walking
 	if(keyDir != 0) acc.x() = movementAccel * float(keyDir);
 
 	else if( abs(vel.x()) > movementAccel * factor ) {
@@ -53,6 +55,7 @@ void Player::update(unsigned long delta, MapPtr map) {
 	}
 	else { acc.x() = vel.x() = 0; }
 
+	// -- Wall sliding
 	bool wallSliding = false;
 
 	if( (collideFlags & COLLISION_DOWN) == 0 && vel.y() > 0 &&
@@ -67,6 +70,7 @@ void Player::update(unsigned long delta, MapPtr map) {
 		acc.y() = 9.82f * 32.f;
 	}
 
+	// -- Jumping
 	if(jumpKey && !oldJumpKey &&
 		((collideFlags & COLLISION_DOWN) != 0 || wallSliding) && !ducking ) {
 
@@ -83,9 +87,11 @@ void Player::update(unsigned long delta, MapPtr map) {
 	oldJumpKey = jumpKey;
 	oldDuckKey = duckKey;
 
+	// -- X velocity limiting
 	vel += acc * factor;
 	vel.x() = std::min( maxSideVel, abs(vel.x()) ) * sgn( vel.x() );
 
+	// -- Ducking
 	FloatRect headBbox(0,0, 16,24);
 	headBbox.setCenterX(bbox().getCenterX());
 	headBbox.setCenterY(bbox().getCenterY() - 16);
@@ -94,8 +100,6 @@ void Player::update(unsigned long delta, MapPtr map) {
 
 		return isTileCollidable(map, x, y);
 	};
-
-	// bool oldDucking = ducking;
 
 	if(!ducking) {
 		if((collideFlags & COLLISION_DOWN) != 0 && duckKey) ducking = true;
