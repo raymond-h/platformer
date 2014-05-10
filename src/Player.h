@@ -1,16 +1,17 @@
-#include "Maps.h"
-
 #include <SDL2/SDL.h>
 #include "util/SDLUtils.h"
 
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
+#include "Entity.h"
+#include "Maps.h"
+
 #include "Vector.h"
 #include "Rect.h"
 #include "Animation.h"
 
-class Player {
+class Player : public Entity {
 public:
 	Player();
 
