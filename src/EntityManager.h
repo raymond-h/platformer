@@ -16,8 +16,10 @@ public:
 
 	~EntityManager();
 
-private:
+	std::vector<Entity*> getEntitiesInBounds(Rect<int> bounds);
 
+private:
+	std::vector<Entity*> entities;
 };
 
 class QuadTree {
@@ -38,7 +40,7 @@ private:
 	QuadTree* bottomLeft;
 	QuadTree* bottomRight;
 
-	vector<Entity*> entities;
+	std::vector<Entity*> entities;
 };
 
 #endif

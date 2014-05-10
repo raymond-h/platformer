@@ -1,5 +1,21 @@
 #include "EntityManager.h"
 
+#include "Entity.h"
+
+EntityManager::EntityManager() : entities() {
+
+}
+
+std::vector<Entity*> EntityManager::getEntitiesInBounds(Rect<int> bounds) {
+	std::vector<Entity*> foundEntities;
+
+	for(Entity* entity : entities) {
+		if( bounds.overlaps(entity->bbox()) ) foundEntities.push_back(entity);
+	}
+
+	return foundEntities;
+}
+
 QuadTree::QuadTree(Rect<int> bounds) : capacity(5), bounds(bounds),
 		topLeft(nullptr), topRight(nullptr),
 		bottomLeft(nullptr), bottomRight(nullptr),
@@ -14,5 +30,5 @@ QuadTree::~QuadTree() {
 }
 
 bool QuadTree::insert(Entity* entity) {
-	
+	return false;
 }
