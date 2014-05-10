@@ -15,6 +15,8 @@ class Player : public Entity {
 public:
 	Player();
 
+	virtual ~Player() {};
+
 	void event(const SDL_Event& event);
 
 	void update(unsigned long delta, MapPtr map);

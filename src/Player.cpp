@@ -9,7 +9,7 @@ template<typename T> T abs(T i) { return i * sgn(i); };
 float movementAccel = 1024.0f;
 float maxSideVel = 100.0f;
 
-Player::Player() :
+Player::Player() : Entity(),
 		pos(128, 128), vel(0, 0), acc(0, 9.82f * 32.f),
 		bboxOffset(-8,-24), w(16), h(24),
 		keyDir(0), oldJumpKey(false), jumpKey(false),
