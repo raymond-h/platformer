@@ -18,19 +18,14 @@ Player::Player() : Entity(),
 	aniMan.setAnimation("stand");
 }
 
-void Player::event(const SDL_Event& event) {
-	if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
-		if(event.key.repeat) return;
+void Player::action(const PlayerAction action, bool pressed) {
+	switch(action) {
+		case PLAYER_ACTION_LEFT: keyDir += (pressed ? -1 : 1); break;
+		case PLAYER_ACTION_RIGHT: keyDir -= (pressed ? -1 : 1); break;
 
-		switch(event.key.keysym.sym) {
-			case SDLK_LEFT: keyDir += (event.key.state == SDL_PRESSED ? -1 : 1); break;
-			case SDLK_RIGHT: keyDir -= (event.key.state == SDL_PRESSED ? -1 : 1); break;
-
-			case SDLK_DOWN: duckKey = (event.key.state == SDL_PRESSED); break;
-			case SDLK_UP: case SDLK_z:  jumpKey = (event.key.state == SDL_PRESSED); break;
-
-			default: break;
-		}
+		case PLAYER_ACTION_DUCK: duckKey = pressed; break;
+		case PLAYER_ACTION_JUMP:  jumpKey = pressed; break;
+		default: break;
 	}
 }
 

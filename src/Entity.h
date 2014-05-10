@@ -16,8 +16,6 @@ public:
 
 	virtual ~Entity();
 
-	virtual void event(const SDL_Event& event) = 0;
-
 	virtual void update(unsigned long delta, MapPtr map) = 0;
 
 	virtual void render(SDL_Renderer*) = 0;

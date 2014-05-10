@@ -11,13 +11,21 @@
 #include "Rect.h"
 #include "Animation.h"
 
+enum PlayerAction {
+	PLAYER_ACTION_NONE,
+	PLAYER_ACTION_LEFT,
+	PLAYER_ACTION_RIGHT,
+	PLAYER_ACTION_JUMP,
+	PLAYER_ACTION_DUCK
+};
+
 class Player : public Entity {
 public:
 	Player();
 
 	virtual ~Player() {};
 
-	void event(const SDL_Event& event);
+	void action(const PlayerAction action, bool pressed);
 
 	void update(unsigned long delta, MapPtr map);
 

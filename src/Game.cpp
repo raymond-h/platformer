@@ -147,7 +147,20 @@ bool Game::event(const SDL_Event& event) { //true == keep processing events, fal
 		default: break;
 	}
 
-	player->event(event);
+	// player->event(event);
+	if((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && !event.key.repeat) {
+		bool pressed = (event.key.state == SDL_PRESSED);
+
+		switch(event.key.keysym.sym) {
+			case SDLK_LEFT: player->action(PLAYER_ACTION_LEFT, pressed); break;
+			case SDLK_RIGHT: player->action(PLAYER_ACTION_RIGHT, pressed); break;
+
+			case SDLK_DOWN: player->action(PLAYER_ACTION_DUCK, pressed); break;
+			case SDLK_UP: case SDLK_z: player->action(PLAYER_ACTION_JUMP, pressed); break;
+
+			default: break;
+		}
+	}
 
 	return true; //Keep processing by default
 }
