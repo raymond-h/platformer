@@ -20,9 +20,6 @@ Player::Player() : Entity(),
 
 void Player::event(const SDL_Event& event) {
 	if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
-		// std::cout << (event.key.state == SDL_PRESSED ? "Pressed" : "Released") << " key " << SDL_GetKeyName(event.key.keysym.sym)
-		// 	<< "; repeat: " << (int)event.key.repeat << std::endl;
-
 		if(event.key.repeat) return;
 
 		switch(event.key.keysym.sym) {
