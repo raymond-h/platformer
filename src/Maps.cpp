@@ -49,10 +49,11 @@ MapPtr loadMap(const boost::filesystem::path& file) {
 	
 	TilesetSet tilesets = map->getTilesets();
 	for(Tileset* tileset : tilesets) {
+
 		TilesetUserData* tilesetUserData = new TilesetUserData;
 		tileset->setUserData(tilesetUserData);
 
-		/* This would be where you populate tilesetUserData with your data from the tileset */
+		// Setup tileset-specific data
 		auto lastSlash = tileset->getImageSource().find_last_of("\\/");
 		std::string fullname = "res/" + tileset->getImageSource().substr(lastSlash+1);
 

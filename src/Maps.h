@@ -30,8 +30,7 @@ enum { TILEFLAG_DENSE = 1, TILEFLAG_JUMPTHROUGH = 2 };
 typedef struct {
 
 	tiledpp::TileLayer* meta;
-
-	/* Enter your map-specific data here */
+	
 	unsigned long* tile_flags;
 	
 } MapUserData;
@@ -39,8 +38,6 @@ typedef struct {
 typedef struct {
 
 	TexturePtr image;
-
-	/* Enter your tileset-specific data here */
 	
 } TilesetUserData;
 
