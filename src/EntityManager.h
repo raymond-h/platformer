@@ -14,7 +14,9 @@ class EntityManager {
 public:
 	EntityManager();
 
-	~EntityManager();
+	~EntityManager() {};
+
+	void add(Entity* entity);
 
 	std::vector<Entity*> getEntitiesInBounds(Rect<int> bounds);
 

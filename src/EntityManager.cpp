@@ -6,6 +6,10 @@ EntityManager::EntityManager() : entities() {
 
 }
 
+void EntityManager::add(Entity* entity) {
+	entities.push_back(entity);
+}
+
 std::vector<Entity*> EntityManager::getEntitiesInBounds(Rect<int> bounds) {
 	std::vector<Entity*> foundEntities;
 
