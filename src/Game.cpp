@@ -15,6 +15,10 @@
 
 #include "Animation.h"
 
+EntityManager entMan;
+Rect<int> weirdBounds(160, 96, 208, 144);
+bool intersected = false;
+
 int Game::init(int argc, char** argv) {
 	std::cout << "SDL init... ";
 	if(SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -51,6 +55,7 @@ int Game::init(int argc, char** argv) {
 	player = new Player();
 	std::cout << "bounce bounce" << std::endl;
 	currentMap = loadMap("res/test.tmx");
+	entMan.add(player);
 
 	std::cout << "Hurr" << std::endl;
 
@@ -168,6 +173,8 @@ bool Game::event(const SDL_Event& event) { //true == keep processing events, fal
 void Game::logic(unsigned long delta) {
 	// delta = 17;
 	player->update(delta, currentMap);
+
+	intersected = entMan.getEntitiesInBounds(weirdBounds).size() > 0;
 }
 
 void Game::render() {
@@ -179,6 +186,12 @@ void Game::render() {
 	renderTileLayer(main, mainRenderer, nullptr, 0, 0);
 
 	player->render(mainRenderer);
+
+	if(!intersected) SDL_SetRenderDrawColor(mainRenderer, 200, 0, 100, 55);
+	else SDL_SetRenderDrawColor(mainRenderer, 55, 255, 100, 55);
+
+	SDL_Rect drawRect = weirdBounds.toSDLRect();
+	SDL_RenderDrawRect(mainRenderer, &drawRect);
 
 	SDL_RenderPresent(mainRenderer);
 }

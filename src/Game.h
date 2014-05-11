@@ -16,6 +16,7 @@
 #define GAME_H_
 
 #include "Maps.h"
+#include "EntityManager.h"
 #include "Player.h"
 
 class Game : public BaseGame {
