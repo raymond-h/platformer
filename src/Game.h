@@ -18,6 +18,7 @@
 #include "Maps.h"
 #include "EntityManager.h"
 #include "PlayerEntity.h"
+#include "PlayerData.h"
 
 class Game : public BaseGame {
 public:
@@ -31,6 +32,10 @@ public:
 
 	static SDL_Renderer* renderer() {
 		return instance()->mainRenderer;
+	}
+
+	static PlayerData& getPlayerData() {
+		return instance()->playerData;
 	}
 	
 protected:
@@ -57,6 +62,8 @@ private:
 
 	PlayerEntity* player;
 	MapPtr currentMap;
+
+	PlayerData playerData;
 };
 
 #endif /* GAME_H_ */

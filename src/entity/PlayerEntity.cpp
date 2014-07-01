@@ -3,6 +3,8 @@
 #include <iostream>
 #include <algorithm>
 
+#include "Game.h"
+
 template<typename T> T sgn(T i) { return i > T(0) ? T(1) : T(-1); };
 template<typename T> T abs(T i) { return i * sgn(i); };
 
@@ -34,6 +36,8 @@ void PlayerEntity::update(unsigned long delta, MapPtr map) {
 
 	float factor = ((float)delta / 1000.f);
 
+	auto playerData = Game::getPlayerData();
+
 	// std::cout << "Factor: " << factor << std::endl;
 
 	// Handle button input
@@ -48,9 +52,13 @@ void PlayerEntity::update(unsigned long delta, MapPtr map) {
 	// -- Wall sliding
 	bool wallSliding = false;
 
-	if( (collideFlags & COLLISION_DOWN) == 0 && vel.y() > 0 &&
-		(((collideFlags & COLLISION_LEFT) != 0 && keyDir == -1) ||
-		((collideFlags & COLLISION_RIGHT) != 0 && keyDir == 1)) ) {
+	if( playerData.powerup && (
+		collideFlags & COLLISION_DOWN) == 0 && vel.y() > 0 &&
+		(
+			((collideFlags & COLLISION_LEFT) != 0 && keyDir == -1) ||
+			((collideFlags & COLLISION_RIGHT) != 0 && keyDir == 1)
+		)
+	) {
 
 		acc.y() = 0;
 		vel.y() = 24.0f;

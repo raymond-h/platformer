@@ -139,6 +139,12 @@ bool Game::event(const SDL_Event& event) { //true == keep processing events, fal
 					break;
 				}
 
+				case SDLK_r: {
+					playerData.powerup = !playerData.powerup;
+
+					break;
+				}
+
 				default: break;
 			}
 			break;
