@@ -7,7 +7,7 @@
 #ifndef ANIMATION_H_
 #define ANIMATION_H_
 
-#include "util/SDLUtils.h"
+#include "SDLUtils.h"
 
 typedef struct {
 

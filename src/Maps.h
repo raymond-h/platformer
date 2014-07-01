@@ -10,7 +10,7 @@
 #include <functional>
 
 #include <SDL2/SDL.h>
-#include "util/SDLUtils.h"
+#include "SDLUtils.h"
 
 #include <boost/filesystem.hpp>
 

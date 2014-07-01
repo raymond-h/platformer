@@ -8,7 +8,7 @@
 #include <memory>
 
 #include <SDL2/SDL.h>
-#include "util/SDLUtils.h"
+#include "SDLUtils.h"
 
 #include "BaseGame.h"
 

@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include "util/SDLUtils.h"
+#include "SDLUtils.h"
 
 class Entity;
 
