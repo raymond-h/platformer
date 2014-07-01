@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "PlayerEntity.h"
 
 #include <iostream>
 #include <algorithm>
@@ -9,7 +9,7 @@ template<typename T> T abs(T i) { return i * sgn(i); };
 float movementAccel = 1024.0f;
 float maxSideVel = 100.0f;
 
-Player::Player() : Entity(),
+PlayerEntity::PlayerEntity() : Entity(),
 		keyDir(0), oldJumpKey(false), jumpKey(false),
 		oldDuckKey(false), duckKey(false),
 		ducking(false), collideFlags(0), lookDir(1),
@@ -18,7 +18,7 @@ Player::Player() : Entity(),
 	aniMan.setAnimation("stand");
 }
 
-void Player::action(const PlayerAction action, bool pressed) {
+void PlayerEntity::action(const PlayerAction action, bool pressed) {
 	switch(action) {
 		case PLAYER_ACTION_LEFT: keyDir += (pressed ? -1 : 1); break;
 		case PLAYER_ACTION_RIGHT: keyDir -= (pressed ? -1 : 1); break;
@@ -29,7 +29,7 @@ void Player::action(const PlayerAction action, bool pressed) {
 	}
 }
 
-void Player::update(unsigned long delta, MapPtr map) {
+void PlayerEntity::update(unsigned long delta, MapPtr map) {
 	// std::cout << "Delta: " << delta << std::endl;
 
 	float factor = ((float)delta / 1000.f);
@@ -135,7 +135,7 @@ void Player::update(unsigned long delta, MapPtr map) {
 	aniMan.update(delta);
 }
 
-void Player::render(SDL_Renderer* renderer) {
+void PlayerEntity::render(SDL_Renderer* renderer) {
 	// SDL_Rect rect = bbox().toSDLRect();
 	// SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 

@@ -19,11 +19,11 @@ enum PlayerAction {
 	PLAYER_ACTION_DUCK
 };
 
-class Player : public Entity {
+class PlayerEntity : public Entity {
 public:
-	Player();
+	PlayerEntity();
 
-	virtual ~Player() {};
+	virtual ~PlayerEntity() {};
 
 	void action(const PlayerAction action, bool pressed);
 

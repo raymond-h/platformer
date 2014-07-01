@@ -52,7 +52,7 @@ int Game::init(int argc, char** argv) {
 
 	std::cout << "setAnimation???" << std::endl;
 
-	player = new Player();
+	player = new PlayerEntity();
 	std::cout << "bounce bounce" << std::endl;
 	currentMap = loadMap("res/test.tmx");
 	entMan.add(player);

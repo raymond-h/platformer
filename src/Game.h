@@ -17,7 +17,7 @@
 
 #include "Maps.h"
 #include "EntityManager.h"
-#include "Player.h"
+#include "PlayerEntity.h"
 
 class Game : public BaseGame {
 public:
@@ -55,7 +55,7 @@ private:
 	SurfacePtr screen;
 	SDL_Renderer* mainRenderer;
 
-	Player* player;
+	PlayerEntity* player;
 	MapPtr currentMap;
 };
 
