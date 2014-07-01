@@ -14,7 +14,7 @@
 
 #include <boost/filesystem.hpp>
 
-#include <tiledpp.h>
+#include <tiledpp/tiledpp.h>
 
 typedef std::shared_ptr<tiledpp::Map> MapPtr;
 

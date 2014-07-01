@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include <tiledpp.h>
+#include <tiledpp/tiledpp.h>
 
 #ifndef GRAPHICSUTILS_H_
 #define GRAPHICSUTILS_H_

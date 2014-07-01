@@ -10,16 +10,15 @@ src_to_deps = $(patsubst $(1)/%.c,$(DEP_DIR)/$(1)/%.d,$(wildcard $(1)/*.c)) $(pa
 OBJS =  $(foreach dir,$(SRC_DIRS),$(call src_to_obj,$(dir)))
 DEPS = $(foreach dir,$(SRC_DIRS),$(call src_to_deps,$(dir)))
 
-TILEDPP_PREFIX = D:/Eclipse-Workspace/TiledPP
-TILEDPP_LIB_DEBUG = $(TILEDPP_PREFIX)/Debug
-TILEDPP_LIB = $(TILEDPP_PREFIX)/Release
-TILEDPP_INCLUDE = $(TILEDPP_PREFIX)/src
+INCLUDES = -I. $(SRC_INCLUDES) -Ilibs/include
 
-INCLUDES =-I. -Ilibs/include -I$(TILEDPP_INCLUDE)
+SRC_INCLUDES = $(foreach dir,$(SRC_DIRS),-I$(dir))
 
-LIBS = -Llibs/lib -L$(TILEDPP_LIB_DEBUG) -lTiledPP -ltinyxml2 -lticppd -lz $(SDL_LIBS) $(BOOST_LIBS) -ljson
+LIBS = -Llibs/lib $(TILEDPP_LIBS) -ltinyxml2 -lticppd -lz $(SDL_LIBS) $(BOOST_LIBS) -ljson
 
 SDL_LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+
+TILEDPP_LIBS = -ltiledpp
 
 BOOST_LIBS = -lboost_filesystem-mgw47-mt-sd-1_52 -lboost_thread-mgw47-mt-sd-1_52 \
 		-lboost_system-mgw47-mt-sd-1_52 -lboost_chrono-mgw47-mt-sd-1_52
@@ -30,7 +29,7 @@ TARGET = platformer.exe
 DEFINES = -D__GXX_EXPERIMENTAL_CXX0X__ -DBOOST_THREAD_USE_LIB -DRES_DIR=\"$(RES_DIR)\" -DMAPS_DIR=\"$(MAPS_DIR)\"
 
 # Folders
-SRC_DIRS = src src/util
+SRC_DIRS = src src/util src/entity
 BIN_DIR = bin
 DEP_DIR = dep
 
