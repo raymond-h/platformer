@@ -2,6 +2,6 @@ bin/*
 dep/*
 wip-res/*
 
-*.dll
+/*.dll
 *.exe
 *.sublime-workspace
